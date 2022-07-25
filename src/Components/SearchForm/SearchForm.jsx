@@ -6,15 +6,12 @@ import {
 import { fetchDocuments } from '../../Redux/actions/documentsAction';
 
 function SearchForm() {
-  const [formData, setFormData] = useState(
-    {
-      id: '',
-      title: '',
-      date: '',
-      sortType: '',
-      sortBy: '',
-    },
-  );
+  const initialValue = {
+    id: '',
+    title: '',
+    date: '',
+  };
+  const [formData, setFormData] = useState(initialValue);
   const dispatch = useDispatch();
 
   const inputHandler = (e) => {
@@ -23,13 +20,9 @@ function SearchForm() {
 
   const formHandler = (e) => {
     e.preventDefault();
-    // formData.id ? dispatch(fetchDocuments(formData.id))
-    //   : dispatch(fetchDocuments());
-    if (formData.id) {
-      dispatch(fetchDocuments(formData.id));
-    } else {
-      dispatch(fetchDocuments());
-    }
+    formData.id ? dispatch(fetchDocuments(formData.id))
+      : dispatch(fetchDocuments());
+    setFormData(initialValue);
   };
 
   return (
@@ -76,45 +69,6 @@ function SearchForm() {
             type="text"
           />
         </FormGroup>
-        <Row>
-          <Label for="sort-type">
-            Сортировка
-          </Label>
-          <Col md={6}>
-            <FormGroup>
-              <Input
-                onChange={inputHandler}
-                name="sortType"
-                value={formData.sortType}
-                type="select"
-              >
-                <option>
-                  По дате
-                </option>
-                <option>
-                  По названию
-                </option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col md={6}>
-            <FormGroup>
-              <Input
-                onChange={inputHandler}
-                name="sortBy"
-                value={formData.sortBy}
-                type="select"
-              >
-                <option>
-                  По убыванию
-                </option>
-                <option>
-                  По возрастанию
-                </option>
-              </Input>
-            </FormGroup>
-          </Col>
-        </Row>
         <Button color="primary">
           Искать
         </Button>

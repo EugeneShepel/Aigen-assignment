@@ -7,10 +7,16 @@ export const loadDocuments = (documents) => ({
   payload: documents,
 });
 
-export const fetchDocuments = (id) => async (dispatch) => {
-  const response = await axios.get(`${defaultUrl}${id}`);
-  if (response.status === 200) {
-    dispatch(loadDocuments(response.data));
+export const sortDocuments = (type, documents) => ({
+  type,
+  payload: documents,
+});
+
+export const fetchDocuments = (id = '') => async (dispatch) => {
+  try {
+    const response = await axios.get(`${defaultUrl}${id}`);
+    if (response.status === 200) dispatch(loadDocuments(response.data));
+  } catch (error) {
+    dispatch(loadDocuments([]));
   }
-  console.log(response.data);
 };

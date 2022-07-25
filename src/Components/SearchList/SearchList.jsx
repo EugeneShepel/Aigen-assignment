@@ -1,31 +1,52 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   Accordion, AccordionBody, AccordionHeader, AccordionItem,
 } from 'reactstrap';
+import { sortDocuments } from '../../Redux/actions/documentsAction';
+import useSortForm from '../useSortForm/useSortForm';
 
 function SearchList() {
   const [open, setOpen] = useState('1');
+  const { sort, SortForm } = useSortForm();
+  let documents = useSelector((state) => state.documents);
+  const dispatch = useDispatch();
+
+  function sortHandler() {
+    // dispatch(sortDocuments(sort.sortType, documents));
+    dispatch(sortDocuments(sort.sortBy, documents));
+  }
+
   const toggle = (id) => {
-    // eslint-disable-next-line no-unused-expressions
     open === id ? setOpen() : setOpen(id);
   };
-  const documents = useSelector((state) => state.documents);
+
+  if (!(documents instanceof Array)) {
+    documents = [documents];
+  }
+
+  useEffect(() => {
+    sortHandler();
+    console.log(sort, 'rerender');
+  }, [sort]);
 
   return (
     <div className="col-md-8">
+      {SortForm}
       <Accordion open={open} toggle={toggle}>
-        {documents.lenght && documents.map((el) => (
+        {documents.length ? documents.map((el) => (
           <AccordionItem key={el.id}>
             <AccordionHeader targetId={el.id.toString()}>
+              {el.id}
+              {'. '}
               {el.title}
             </AccordionHeader>
             <AccordionBody accordionId={el.id.toString()}>
               {el.body}
             </AccordionBody>
           </AccordionItem>
-        ))}
+        )) : <p>Документ не найден</p>}
       </Accordion>
     </div>
   );
