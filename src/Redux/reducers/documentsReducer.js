@@ -1,13 +1,11 @@
 // eslint-disable-next-line default-param-last
 const documentsReducer = (state = [], action) => {
   const { type, payload } = action;
-  console.log(payload);
   switch (type) {
     case 'LOAD_DOCUMENTS':
       return payload;
 
     case 'asc':
-      console.log(payload);
       return state.slice().sort((a, b) => a[payload].localeCompare(b[payload]));
 
     case 'desc':

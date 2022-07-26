@@ -7,9 +7,9 @@ export const loadDocuments = (documents) => ({
   payload: documents,
 });
 
-export const sortDocuments = (type, documents) => ({
+export const sortDocuments = (type, field) => ({
   type,
-  payload: documents,
+  payload: field,
 });
 
 export const fetchDocuments = (id = '') => async (dispatch) => {

@@ -14,8 +14,7 @@ function SearchList() {
   const dispatch = useDispatch();
 
   function sortHandler() {
-    // dispatch(sortDocuments(sort.sortType, documents));
-    dispatch(sortDocuments(sort.sortBy, documents));
+    dispatch(sortDocuments(sort.sortBy, sort.sortType));
   }
 
   const toggle = (id) => {
@@ -28,7 +27,6 @@ function SearchList() {
 
   useEffect(() => {
     sortHandler();
-    console.log(sort, 'rerender');
   }, [sort]);
 
   return (
